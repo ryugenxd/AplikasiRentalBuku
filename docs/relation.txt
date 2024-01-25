@@ -1,0 +1,53 @@
+Table roles {
+  id int [not null,PK]
+  name varchar(100) [not null]
+}
+
+
+
+Table users {
+  id int [not null ,PK]
+  username varchar(100) [not null]
+  password varchar(100) [not null]
+  phone varchar(100)
+  address varchar(100)
+  status tinyint [default: 0]
+  role_id int [not null]
+}
+
+
+Ref:  users.role_id > roles.id
+
+
+Table categories {
+  id int [not null,PK]
+  name varchar(100) [not null]
+}
+
+Table books {
+  id int [not null,PK]
+  name varchar(100) [not null]
+  status tinyint [default: 0]
+}
+
+Table book_categories {
+  id int [not null,PK]
+  book_id int [not null]
+  category_id int [not null]
+}
+
+Ref: book_categories.book_id <> books.id
+Ref: book_categories.category_id <> categories.id
+
+Table logs {
+  id int [not null,PK]
+  user_id int [not null]
+  book_id int [not null]
+  date date [not null]
+  return_date date [not null]
+  actual_date data [not null]
+}
+
+Ref: logs.book_id <> books.id
+Ref: logs.user_id <> users.id
+
