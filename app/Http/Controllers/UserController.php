@@ -10,7 +10,12 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        dd(Auth::user());
+        return view('users');
+    }
+    public function profile(): View
+    {
+        //dd(Auth::user());
         return view('profile');
     }
+
 }

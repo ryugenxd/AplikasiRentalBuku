@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Catgory;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
