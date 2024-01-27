@@ -36,19 +36,24 @@ class CategoryController extends Controller
     public function edit(string $slug): View
     {
       $category = Category::where('slug',$slug)->firstOrFail();
-      return view('edit_category',compact('category'));
+      $categories = Category::latest()->paginate(6);
+      return view('edit_category',compact('category','categories'));
     }
 
     public function update(Request $request): RedirectResponse
     {
+      // dd($request->all());
       $validated = $request -> validate([
-        "name"=>"required|min:3|unique:categories:max:100",
+        "name"=>"required|min:3|unique:categories|max:100",
+        "slug"=>"nullable"
       ]);
+      // dd($validated);
       $category = Category::where("id",$request->id)->firstOrFail();
       $category -> name = $validated['name'];
       $category -> slug = null;
+      $category -> save();
       Session::flash('message','Category Has Been Updated');
-      return back();
+      return redirect()->route('categories');
     }
 
     public function delete(string $slug): RedirectResponse
@@ -57,6 +62,20 @@ class CategoryController extends Controller
       $category -> delete();
       Session::flash('message','Category Has Been Deleted');
       return back();
+    }
+
+    public function restore(string $slug): RedirectResponse
+    {
+      $category = Category::withTrashed()
+      ->where('slug', $slug)
+      ->restore();
+      return back();
+    }
+
+    public function deleted(): View
+    {
+      $categories = Category::onlyTrashed()->get();
+      return view('category_deleted',compact('categories'));
     }
 
 }

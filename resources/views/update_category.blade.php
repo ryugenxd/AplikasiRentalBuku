@@ -1,13 +1,12 @@
 @extends('layouts.app')
-@section('title','Categories')
+@section('title','Categories Update')
 @section('content')
 <div class="row">
-    <h2 class="p-2">Categories</h2>
+    <h2 class="p-2">Categories Update</h2>
     <div>
         <div class="d-flex justify-content-end align-items-center w-100">
             <div class="mb-4 d-flex justify-content-between align-items-center gap-2">
-                <a class="btn btn-secondary" href="{{route('categories.deleted')}}">Categories Deleted</a>
-                <a class="btn btn-primary" href="{{route('categories.create')}}">Tambah Data</a>
+                <a class="btn btn-primary" href="{{route('categories.create')}}">Update Data</a>
             </div>
         </div>
         <table class="table">

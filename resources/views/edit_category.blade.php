@@ -1,15 +1,17 @@
 @extends('layouts.app')
-@section('title','Add Category')
+@section('title','Update Category')
 @section('content')
-<h1>Add Category</h1>
+<h1>Update Category</h1>
 <div class="row mt-3">
     <div class="col-lg-6 col-ms-5 col-md-7">
         <div class="mt-4">
-            <form action="{{route('categories.created')}}" method="post">
+            <form action="{{route('categories.updated')}}" method="post">
                 @csrf
+                @method('put')
+                <input type="hidden" name="id" value="{{$category->id}}">
                 <div class="p-3 mb-5">
                     <label for="name" class="form-label">Category Name</label>
-                    <input id="name" type="text" name="name" class="form-control"/>
+                    <input id="name" type="text" name="name" class="form-control" value="{{$category->name}}"/>
                     @error('name')
                         <div class="alert alert-danger mt-2">
                             {{$message}}
@@ -18,7 +20,7 @@
                 </div>
                 <div class="p-3 d-flex justify-content-end aling-items-center">
                     <button type="submit" class="btn btn-success">
-                        <i class="bi bi-floppy"></i> Save
+                        <i class="bi bi-floppy"></i> Update
                     </button>
                 </div>
             </form>

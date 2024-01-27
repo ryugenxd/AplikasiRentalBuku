@@ -34,11 +34,15 @@ Route::middleware("auth")->group(function(){
         Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
         Route::get('/users',[UserController::class,'index'])->name('users');
         Route::get('/logs',[LogsController::class,'index'])->name('logs');
+        
         Route::get('/categories',[CategoryController::class,'index'])->name('categories');
         Route::get('/categories/create',[CategoryController::class,'add'])->name('categories.create');
         Route::post('/categories/created',[CategoryController::class,'create'])->name('categories.created');
         Route::delete('/categories/delete/{slug}',[CategoryController::class,'delete'])->name('categories.delete');
-        Route::put('/categories/update/{slug}',[CategoryController::class,'update'])->name('categories.update');
+        Route::get('/categories/update/{slug}',[CategoryController::class,'edit'])->name('categories.update');
+        Route::put('/categories/restore/{slug}',[CategoryController::class,'restore'])->name('categories.restore');
+        Route::put('/categories/update',[CategoryController::class,'update'])->name('categories.updated');
+        Route::get('/categories/deleted',[CategoryController::class,'deleted'])->name('categories.deleted');
     });
     Route::middleware("only.guest")->group(function(){
         Route::get('/profile',[UserController::class,'profile'])->name('profile');
