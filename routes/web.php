@@ -37,6 +37,8 @@ Route::middleware("auth")->group(function(){
         Route::get('/categories',[CategoryController::class,'index'])->name('categories');
         Route::get('/categories/create',[CategoryController::class,'add'])->name('categories.create');
         Route::post('/categories/created',[CategoryController::class,'create'])->name('categories.created');
+        Route::delete('/categories/delete/{slug}',[CategoryController::class,'delete'])->name('categories.delete');
+        Route::put('/categories/update/{slug}',[CategoryController::class,'update'])->name('categories.update');
     });
     Route::middleware("only.guest")->group(function(){
         Route::get('/profile',[UserController::class,'profile'])->name('profile');
