@@ -23,8 +23,8 @@
             <div class="sidebar  col-lg-2 collapse d-lg-block" id="navbarSupportedContent">
                 @if(Auth::user()->role_id != 2)
                   <a href="{{route('dashboard')}}" class="{{Request::is('dashboard') ? 'active' : ' '}}">Dashboard</a>
-                  <a href="{{route('categories')}}" class="{{Request::is('categories') || Request::is('categories/deleted') || Request::is('categories/create') || Request::is('categories/update/*') ? 'active' : ' '}}">Categories</a>
-                  <a href="{{route('books')}}" class="{{Request::is('books') ? 'active' : ' '}}">Books</a>
+                  <a href="{{route('categories')}}" class="{{Request::is('categories') || Request::is('categories/*') ? 'active' : ' '}}">Categories</a>
+                  <a href="{{route('books')}}" class="{{Request::is('books') || Request::is('books/*') ? 'active' : ' '}}">Books</a>
                   <a href="{{route('users')}}" class="{{Request::is('users') ? 'active' : ' '}}">Users</a>
                   <a href="{{route('logs')}}" class="{{Request::is('logs') ? 'active' : ' '}}">Log Activity</a>
                   <a href="{{route('logout')}}" class="{{Request::is('logout') ? 'active' : ' '}}">Logout</a>

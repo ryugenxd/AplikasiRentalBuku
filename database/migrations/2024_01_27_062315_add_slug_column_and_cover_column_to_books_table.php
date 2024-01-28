@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table -> string('slug')->nullable(true);
-            $table -> sting('cover')->nullable(false);
+            $table -> string('slug')->nullable(true)->after('title');
+            $table -> string('cover')->nullable(true)->after('slug');
         });
     }
 

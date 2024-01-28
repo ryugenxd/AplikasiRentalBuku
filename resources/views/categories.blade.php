@@ -19,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($categories as $category)
+                @forelse($categories as $category)
                 <tr>
                     <td>{{$loop->iteration}}</td>
                     <td class="text-center">{{$category -> name}}</td>
@@ -51,7 +51,13 @@
                         <a class="btn btn-success" href="{{route('categories.update',[$category -> slug])}}"><i class="bi bi-pencil-square"></i></a>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Data Is Empty
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
