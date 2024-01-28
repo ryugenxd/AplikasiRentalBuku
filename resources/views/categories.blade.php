@@ -21,7 +21,7 @@
             <tbody>
                 @forelse($categories as $category)
                 <tr>
-                    <td>{{$loop->iteration}}</td>
+                    <td>{{$loop->iteration}}.</td>
                     <td class="text-center">{{$category -> name}}</td>
                     <td class="text-end">
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">

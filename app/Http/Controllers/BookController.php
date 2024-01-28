@@ -36,36 +36,75 @@ class BookController extends Controller
             'categories'=>'required|array',
             'slug'=>'nullable|unique:books'
         ]);
-        $book = Book::create($validated);
-        $book -> categories() -> sync($validated['categories']);
-        if(!empty($request->file('cover'))){
+        if($request->hasFile('cover')){
             $cover = $request->file('cover');
             $cover -> storeAs('public/covers',$cover->hashName());
-            $book -> cover = $cover -> hashName();
+            $validated["cover"] = $cover -> hashName();
         }
+        $book = Book::create($validated);
+        $book -> categories() -> sync($validated['categories']);
         Session::flash('message','Books Have Been Added');
         return back();
     }
 
     public function edit(string $slug): View
     {
-        $book = Book::where('slug',$slug)->first();
+        $book = Book::where('slug',$slug)->firstOrFail();
         $books = Book::latest()->paginate(6);
-        return view('update_books',compact('book','books'));
+        $categories = Category::all();
+        return view('update_books',compact('book','books','categories'));
     }
 
 
     public function update(Request $request): RedirectResponse
     {
         $validated = $request -> validate([
-
+            'code'=>'required|min:3|max:16',
+            'title'=>'required|min:3|max:100',
+            'cover'=>'nullable|image',
+            'categories'=>'nullable|array',
+            'slug'=>'nullable|unique:books',
+            'id'=>'integer'
         ]);
+
+
+        if($request -> hasFile('cover')){
+            $cover = $request->file('cover');
+            $cover -> storeAs('public/covers',$cover->hashName());
+            $validated["cover"] = $cover -> hashName();
+        }
+
+
+        $book = Book::where('id',$validated['id'])->firstOrFail();
+        if($book->code = $validated['code']){
+            unset($validated['code']);
+        }
+        if($request->has('categories')){
+            $book -> categories() -> sync($validated['categories']);
+        }
+        $book -> fill($validated);
+        $book -> save();
+        Session::flash('message','Book Have Been Updated');
         return back();
     }
 
+    public function deleted(): View
+    {
+        $books = Book::onlyTrashed()->get();
+        return view('book_deleted',compact('books'));
+    }
 
-    public function delete(): RedirectResponse
-    {               
+    public function restore(string $slug): RedirectResponse
+    {
+        $book = Book::withTrashed() -> where('slug', $slug) ->restore();
+        Session::flash('message','Category Has Been Restored');
+        return back();
+    }
+
+    public function delete(string $slug): RedirectResponse
+    {   $book = Book::where('slug',$slug)->firstOrFail();
+        $book -> delete();
+        Session::flash('message','Category Has Been Removed');
         return back();
     }
 

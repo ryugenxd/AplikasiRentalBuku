@@ -2,12 +2,15 @@
 @section('title','Update Book')
 @section('content')
 <h1>Update Book</h1>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <div class="row mt-3">
     <div class="col-lg-6 col-ms-5 col-md-7">
         <div class="mt-4">
         <form action="{{route('books.updated')}}" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="p-3 mb-5">
+                @method('put')
+                <input type="hidden" name="id" value="{{$book->id}}">
+                <div class="p-3 mb-1">
                     <label for="code" class="form-label">Code</label>
                     <input id="code" type="text" name="code" class="form-control" value="{{$book->code}}"/>
                     @error('code')
@@ -16,7 +19,7 @@
                         </div>
                     @enderror
                 </div>      
-                <div class="p-3 mb-5">
+                <div class="p-3 mb-1">
                     <label for="title" class="form-label">Title</label>
                     <input id="title" type="text" name="title" class="form-control" value="{{$book->title}}"/>
                     @error('title')
@@ -25,7 +28,10 @@
                         </div>
                     @enderror
                 </div>
-                <div class="p-3 mb-5">
+                <div class="p-3 mb-1">
+                    <img style="width:135px;height:135px;object-fit:contain"  src='{{asset("storage/covers/$book->cover")}}' alt="cover">
+                </div>
+                <div class="p-3 mb-1">
                     <label for="cover" class="form-label">Cover</label>
                     <input id="cover" type="file" name="cover" class="form-control" accept="image/*"/>
                     @error('cover')
@@ -33,6 +39,18 @@
                             {{$message}}
                         </div>
                     @enderror
+                </div>
+                <div class="p-3 mb-2">
+                    <label for="categories" class="form-label">Categories</label>
+                    <select name="categories[]" id="categories" class="form-control multiple-select" multiple>
+                        @forelse($categories as $category)
+                            @foreach($book->categories as $value)
+                                <option value="{{$category->id}}" {{$category->id===$value->id?'selected':''}}>{{$category->name}}</option>
+                            @endforeach
+                        @empty
+                        <option>Category Is Empty</option>
+                        @endforelse
+                    </select>
                 </div>
                 <div class="p-3 d-flex justify-content-end aling-items-center">
                     <button type="submit" class="btn btn-success">
@@ -63,7 +81,7 @@
                 <tbody>
                 @forelse ($books as $book)
                     <tr>
-                        <td>{{$loop->iteration}}</td>
+                        <td>{{$loop->iteration}}.</td>
                         <td class="text-center">{{$book -> title}}</td>
                         <td class="text-end">
                             <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete">
@@ -105,5 +123,11 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.multiple-select').select2();
+    });
+</script>
 @endsection

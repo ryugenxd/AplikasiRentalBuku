@@ -4,7 +4,8 @@
 <h2>Books</h2>
 <div class="mt-5">
     <div class="d-flex justify-content-end align-items-center w-100">
-        <div class="mb-4 d-flex justify-content-end align-items-center">
+        <div class="mb-4 d-flex justify-content-between align-items-center gap-2">
+            <a class="btn btn-secondary" href="{{route('books.deleted')}}">Categories Deleted</a>
             <a class="btn btn-primary" href="{{route('books.create')}}">Tambah Data</a>
         </div>
     </div>
@@ -36,7 +37,7 @@
             @forelse($books as $book)
             <tr>
                 <td>
-                   {{$loop->iteration}}
+                   {{$loop->iteration}}.
                 </td>
                 <td class="text-center">
                     {{$book->code}}
@@ -66,7 +67,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body text-center">
-                                            <p>Are you sure you want to delete this category ?</p>
+                                            <p>Are you sure you want to delete this book ?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

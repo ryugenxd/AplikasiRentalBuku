@@ -34,6 +34,11 @@ Route::middleware("auth")->group(function(){
         Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
         Route::get('/users',[UserController::class,'index'])->name('users');
+        Route::post('/users',[UserController::class,'add'])->name('users.add');
+        Route::get('/users/update/{slug}',[UserController::class,'profile'])->name('users.update');
+        Route::get('/users/update',[UserController::class,'updated'])->name('users.updated');
+        Route::delete('/users/delete',[UserController::class,'delete'])->name('users.delete');
+
         Route::get('/logs',[LogsController::class,'index'])->name('logs');
         
         Route::get('/categories',[CategoryController::class,'index'])->name('categories');
@@ -49,7 +54,9 @@ Route::middleware("auth")->group(function(){
         Route::post('/books/created',[BookController::class,'created'])->name('books.created');
         Route::get('/books/update/{slug}',[BookController::class,'edit'])->name('books.update');
         Route::put('/books/updated',[BookController::class,'update'])->name('books.updated');
-        Route::delete('/books/delete',[BookController::class,'delete'])->name('books.delete');
+        Route::get('/books/deleted',[BookController::class,'deleted'])->name('books.deleted');
+        Route::put('/books/restore/{slug}',[BookController::class,'restore'])->name('books.restore');
+        Route::delete('/books/delete/{slug}',[BookController::class,'delete'])->name('books.delete');
 
     });
 

@@ -60,7 +60,7 @@ class CategoryController extends Controller
     {
       $category = Category::where('slug',$slug)->firstOrFail();
       $category -> delete();
-      Session::flash('message','Category Has Been Deleted');
+      Session::flash('message','Category Has Been Removed');
       return back();
     }
 
