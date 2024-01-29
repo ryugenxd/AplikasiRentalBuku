@@ -5,8 +5,8 @@
 <div class="mt-5">
     <div class="d-flex justify-content-end align-items-center w-100">
         <div class="mb-4 d-flex justify-content-between align-items-center gap-2">
-            <a class="btn btn-secondary" href="{{route('books.deleted')}}">Users Deleted</a>
-            <a class="btn btn-primary" href="{{route('books.create')}}">Tambah Data</a>
+            <a class="btn btn-secondary" href="{{route('users.deleted')}}">Users Banned</a>
+            <a class="btn btn-primary" href="{{route('users.create')}}">Tambah Data</a>
         </div>
     </div>
     <table class="table">
@@ -45,7 +45,7 @@
                     </button>
                         <div class="modal fade" id="confirmDelete" tabindex="-1" aria-labelledby="deleted" aria-hidden="true">
                             <div class="modal-dialog">
-                                <form method="post"  action="" class="modal-content">
+                                <form method="post"  action="{{route('users.delete',[$user->slug])}}" class="modal-content">
                                         @csrf
                                         @method('delete')
                                         <div class="modal-header">
@@ -53,7 +53,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body text-center">
-                                            <p>Are you sure you want to delete this user ?</p>
+                                            <p>Are you sure you want to ban this user ?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

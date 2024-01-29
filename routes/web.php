@@ -34,10 +34,13 @@ Route::middleware("auth")->group(function(){
         Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
         Route::get('/users',[UserController::class,'index'])->name('users');
-        Route::post('/users',[UserController::class,'add'])->name('users.add');
+        Route::put('/users/restore/{slug}',[UserController::class,'restore'])->name('users.restore');
+        Route::get('/users/create',[UserController::class,'create'])->name('users.create');
+        Route::post('/users/add',[UserController::class,'add'])->name('users.add');
         Route::get('/users/update/{slug}',[UserController::class,'profile'])->name('users.update');
-        Route::get('/users/update',[UserController::class,'updated'])->name('users.updated');
-        Route::delete('/users/delete',[UserController::class,'delete'])->name('users.delete');
+        Route::put('/users/update',[UserController::class,'updated'])->name('users.updated');
+        Route::get('/users/deleted',[UserController::class,'deleted'])->name('users.deleted');
+        Route::delete('/users/delete/{slug}',[UserController::class,'delete'])->name('users.delete');
 
         Route::get('/logs',[LogsController::class,'index'])->name('logs');
         
