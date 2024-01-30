@@ -1,12 +1,12 @@
 @extends('layouts.app')
-@section('title','Users')
+@section('title','Disapproved List')
 @section('content')
 <h2>Users</h2>
 <div class="mt-5">
     <div class="d-flex justify-content-end align-items-center w-100">
         <div class="mb-4 d-flex justify-content-between align-items-center gap-2">
             <a class="btn btn-secondary" href="{{route('users.deleted')}}">Users Banned</a>
-            <a class="btn btn-primary" href="{{route('users.disapproved')}}">Disapproved List</a>
+            <a class="btn btn-primary" href="{{route('users')}}">Approved List</a>
         </div>
     </div>
     <table class="table">
@@ -40,6 +40,33 @@
                     {{$user->phone}}
                 </td>
                 <td class="text-end">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approve{{$user->id}}">
+                        <i class="bi bi-check-circle"></i> Approve
+                    </button>
+                    <div class="modal fade" id="approve{{$user->id}}" tabindex="-1" aria-labelledby="approved" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <form method="POST" action="{{route('users.approved',[$user->slug])}}" class="modal-content">
+                                @csrf
+                                @method('put')
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="approved">
+                                        Approve 
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <p>Are you sure you want to approve this user ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">
+                                        OK, I'm sure
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDelete{{$user->id}}">
                         <i class="bi bi-ban"></i>
                     </button>
@@ -64,7 +91,7 @@
                                 </form>
                             </div>
                         </div>
-                    <a class="btn btn-success" href="{{route('users.update',[$user -> slug])}}"><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-primary" href="{{route('users.update',[$user -> slug])}}"><i class="bi bi-pencil-square"></i></a>
                     <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#detail{{$user->id}}">
                         <i class="bi bi-person-vcard"></i>
                     </button>

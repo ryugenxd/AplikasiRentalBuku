@@ -35,12 +35,13 @@ Route::middleware("auth")->group(function(){
 
         Route::get('/users',[UserController::class,'index'])->name('users');
         Route::put('/users/restore/{slug}',[UserController::class,'restore'])->name('users.restore');
-        Route::get('/users/create',[UserController::class,'create'])->name('users.create');
+        Route::get('/users/disapproved',[UserController::class,'disapproved'])->name('users.disapproved');
+        Route::put('/users/approved/{slug}',[UserController::class,'approved'])->name('users.approved');
         Route::post('/users/add',[UserController::class,'add'])->name('users.add');
         Route::get('/users/update/{slug}',[UserController::class,'profile'])->name('users.update');
         Route::put('/users/update',[UserController::class,'updated'])->name('users.updated');
-        Route::get('/users/deleted',[UserController::class,'deleted'])->name('users.deleted');
-        Route::delete('/users/delete/{slug}',[UserController::class,'delete'])->name('users.delete');
+        Route::get('/users/banned',[UserController::class,'deleted'])->name('users.deleted');
+        Route::delete('/users/ban/{slug}',[UserController::class,'delete'])->name('users.delete');
 
         Route::get('/logs',[LogsController::class,'index'])->name('logs');
         
