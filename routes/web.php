@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
@@ -18,11 +19,9 @@ use App\Http\Controllers\LogsController;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
-})->middleware('auth');
+Route::get('/', [PublicController::class,'index'])->name('public_views');
 
-Route::middleware('guest')->group(function(){
+Route::middleware('only.guest')->group(function(){
     Route::get('/login',[AuthController::class,'login'])->name('login');
     Route::post('/login',[AuthController::class,'login_authentication'])->name('login.authentication');
     Route::get('/register',[AuthController::class,'register'])->name('register');
@@ -30,6 +29,8 @@ Route::middleware('guest')->group(function(){
 });
 
 Route::middleware("auth")->group(function(){
+
+
     Route::middleware("only.admin")->group(function(){
         Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 
@@ -54,6 +55,7 @@ Route::middleware("auth")->group(function(){
         Route::put('/categories/update',[CategoryController::class,'update'])->name('categories.updated');
         Route::delete('/categories/delete/{slug}',[CategoryController::class,'delete'])->name('categories.delete');
         
+        Route::get('/books',[BookController::class,'index'])->name('books');
         Route::get('/books/create',[BookController::class,'add'])->name('books.create');
         Route::post('/books/created',[BookController::class,'created'])->name('books.created');
         Route::get('/books/update/{slug}',[BookController::class,'edit'])->name('books.update');
@@ -64,10 +66,6 @@ Route::middleware("auth")->group(function(){
 
     });
 
-    Route::middleware("only.guest")->group(function(){
-        Route::get('/profile',[UserController::class,'profile'])->name('profile');
-    });
-    
-    Route::get('/books',[BookController::class,'index'])->name('books');
+    Route::get('/profile',[UserController::class,'profile'])->name('profile'); 
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 });

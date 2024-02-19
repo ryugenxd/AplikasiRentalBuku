@@ -16,8 +16,9 @@ class OnlyAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // jika bukan role admin maka di tendang ke halaman utama
         if(Auth::user()->role_id != 1){
-            return redirect()->route('books');
+            return redirect('/');
         }
         return $next($request);
     }

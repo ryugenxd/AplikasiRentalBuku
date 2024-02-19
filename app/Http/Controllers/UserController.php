@@ -18,7 +18,7 @@ class UserController extends Controller
         return view('users',compact('users'));
 
     }
-    public function profile(string $slug): View
+    public function profile(): View
     {
         
         return view('profile');

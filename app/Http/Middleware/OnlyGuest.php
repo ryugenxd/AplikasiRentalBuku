@@ -16,8 +16,10 @@ class OnlyGuest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role_id != 2){
-            return redirect()->route('books');
+        if(Auth::user()){
+            if(Auth::user()->role_id != 2){
+                return redirect('/');
+            }
         }
         return $next($request);
     }

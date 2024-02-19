@@ -1,0 +1,9 @@
+- fitur sistem analisis product,user,category and etc....
+- fitur authentication register,login,logout and role users
+- fitur add new category  create,read,update,delete
+- fitur add new book create,read,update,delete
+- fitur list users,categories and books
+- fitur pencarian buku berdasarkan kategori dan nama 
+
+
+page management books only for admin

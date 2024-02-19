@@ -21,18 +21,23 @@
       <div class="main-content h-100">
           <div class="row g-0 h-100">
             <div class="sidebar  col-lg-2 collapse d-lg-block" id="navbarSupportedContent">
+              @if(Auth::user())
                 @if(Auth::user()->role_id != 2)
                   <a href="{{route('dashboard')}}" class="{{Request::is('dashboard') ? 'active' : ' '}}">Dashboard</a>
                   <a href="{{route('categories')}}" class="{{Request::is('categories') || Request::is('categories/*') ? 'active' : ' '}}">Categories</a>
                   <a href="{{route('books')}}" class="{{Request::is('books') || Request::is('books/*') ? 'active' : ' '}}">Books</a>
                   <a href="{{route('users')}}" class="{{Request::is('users') || Request::is('users/*') ? 'active' : ' '}}">Users</a>
                   <a href="{{route('logs')}}" class="{{Request::is('logs') ? 'active' : ' '}}">History  </a>
+                  <a href="{{route('public_views')}}" class="{{Request::is('/') ? 'active' : ' '}}">Book List</a>
                   <a href="{{route('logout')}}" class="{{Request::is('logout') ? 'active' : ' '}}">Logout</a>
                 @else
-                  <a href="{{route('books')}}" class="{{Request::is('books') ? 'active' : ' '}}">Books</a>
+                  <a href="{{route('public_views')}}" class="{{Request::is('/') ? 'active' : ' '}}">Book List</a>
                   <a href="{{route('profile')}}" class="{{Request::is('profile') ? 'active' : ' '}}">Profile</a>
                   <a href="{{route('logout')}}" class="{{Request::is('logout') ? 'active' : ' '}}">Logout</a>
                 @endif
+              @else 
+              <a href="{{route('login')}}">Login</a>
+              @endif
             </div>
             <div class="content col-lg-10 p-5">
               @yield('content')
