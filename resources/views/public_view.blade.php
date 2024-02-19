@@ -1,6 +1,24 @@
 @extends('layouts.app')
 @section('title','Books')
 @section('content')
+<form action="" method="get">
+    <div class="row mb-3">
+        <div class="col-12 col-sm-6">
+            <select name="category" class="form-control p-2">
+                <option selected>Select Category</option>
+                @foreach($categories as $category)
+                <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="input-group mb-3">
+                <input type="text" name="title" class="form-control" placeholder="Book title ....." >
+                <button class="btn btn-outline-primary" type="submit" >Search</button>
+            </div>
+        </div>
+    </div>
+</form>
 <div class="p-3">
     <div class="row">
         @foreach($books as $book)
