@@ -56,6 +56,8 @@ Route::middleware("auth")->group(function(){
         Route::delete('/categories/delete/{slug}',[CategoryController::class,'delete'])->name('categories.delete');
         
         Route::get('/books',[BookController::class,'index'])->name('books');
+        Route::get('/books/rent',[BookController::class,'rentBooks'])->name('books.rent');
+        Route::post('/books/rent',[BookController::class,'rentStore'])->name('books.rent.store');
         Route::get('/books/create',[BookController::class,'add'])->name('books.create');
         Route::post('/books/created',[BookController::class,'created'])->name('books.created');
         Route::get('/books/update/{slug}',[BookController::class,'edit'])->name('books.update');

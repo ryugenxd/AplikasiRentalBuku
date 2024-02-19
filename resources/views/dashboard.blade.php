@@ -32,7 +32,7 @@
     </div>
 <div>
 <div class="mt-5">
-    <h5>#Logs </h5>
+    <h5>#History </h5>
     <table class="table">
         <thead>
             <tr class="table-primary">
@@ -46,11 +46,37 @@
             </tr>
         </thead>
         <tbody>
+            @forelse($histories as $history)
+            <tr class="{{ $history->actual_date == null ? '' : ($history->return_date < $history -> actual_date ? 'text-bg-danger':'text-bg-success')}}">
+                <td>
+                   {{$loop -> iteration}}
+                </td>
+                <td>
+                    {{$history -> user -> username}}
+                </td>
+                <td>
+                    {{$history -> book -> title}}
+                </td>
+                <td>
+                    {{$history -> date}}
+                </td>
+                <td>
+                    {{$history -> return_date}}
+                </td>
+                <td>
+                    {{$history -> actual_date}}
+                </td>
+                <td>
+                    {{$history -> return_date < $history -> actual_date ? 'Bravo !':'Penalty >:I'}}
+                </td>
+            </tr>
+            @empty
             <tr>
                 <td colspan="7" class="text-center">
                    Data Is Empty
                 </td>
             </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

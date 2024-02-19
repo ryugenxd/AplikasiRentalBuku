@@ -7,7 +7,8 @@ use Illuminate\View\View;
 use App\Models\{
     User,
     Category,
-    Book
+    Book,
+    History
 };
 
 class DashboardController extends Controller
@@ -17,7 +18,8 @@ class DashboardController extends Controller
         $bookCount = Book::count();
         $categoryCount = Category::count();
         $userCount = User::count();
+        $histories = History::with(['user','book'])->get();
 
-        return view('dashboard',compact('bookCount','categoryCount','userCount'));
+        return view('dashboard',compact('bookCount','categoryCount','userCount','histories'));
     }
 }

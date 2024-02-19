@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Carbon\Carbon;
 use App\Models\{
+    User,
     Book,
-    Category
+    Category,
+    History
 };
 
 class BookController extends Controller
@@ -106,6 +110,64 @@ class BookController extends Controller
         $book -> delete();
         Session::flash('message','Category Has Been Removed');
         return back();
+    }
+
+    public function rentBooks(): View 
+    {
+        $users = User::where('role_id',2)->where('status','active')->get();
+        $books = Book::all();
+        return view('book_rent',compact('users','books'));
+    }
+
+    public function rentStore(Request $request): RedirectResponse
+    {   
+        $now = Carbon::now();
+        $request['date'] = $now ->toDateString();
+        // 3 hari waktu pengembalian
+        $request['return_date'] = $now -> addDay(3) -> toDateString();
+        // dd($request->all());
+        $book = Book::findOrFail($request->book_id)->only('status');
+        if($book['status'] != 'in stock'){
+            Session::flash('message',
+            [
+                'value'=>'Cannot rent, the book is not available',
+                'status'=>'alert-danger'
+            ]);
+        }else {
+            $count = History::where('user_id',$request->user_id) -> where('actual_date',null)->count();
+            if($count >= 3){
+                Session::flash('message',[
+                    'value'=>'Cannot rent, user has reach limit of book',
+                    'status'=>'alert-danger'
+                ]);
+            }else{
+                $this -> pushHistory($request->all());
+            }
+        }
+        return back();
+    }
+
+    private function pushHistory($data)
+    {
+        
+        try{
+            DB::beginTransaction();
+            History::create($data);
+            $book = Book::findOrFail($data['book_id']);
+            $book -> status = 'not available';
+            $book -> save();
+            DB::commit();
+            Session::flash('message',[
+                'value'=>'Rent book success !',
+                'status'=>'alert-success'
+            ]);
+        }catch(\Throwable $th){
+            DB::rollBack();
+            Session::flash('message',[
+                'value'=>'error !',
+                'status'=>'alert-danger'
+            ]);
+        }
     }
 
 }
