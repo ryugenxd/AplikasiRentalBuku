@@ -42,7 +42,6 @@
                 <th>Date</th>
                 <th>Return Date</th>
                 <th>Actual Date</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -65,9 +64,6 @@
                 </td>
                 <td>
                     {{$history -> actual_date}}
-                </td>
-                <td>
-                    {{$history -> return_date < $history -> actual_date ? 'Bravo !':'Penalty >:I'}}
                 </td>
             </tr>
             @empty

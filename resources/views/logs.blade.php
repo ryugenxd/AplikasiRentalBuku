@@ -12,7 +12,6 @@
                 <th>Date</th>
                 <th>Return Date</th>
                 <th>Actual Date</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','Return Book')
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="{{asset('theme/css/select2.min.css')}}" rel="stylesheet" />
 <div class="d-flex justify-content-center align-items-center p-4">
     <form action="" method="post" class="p-3">
         @csrf
@@ -32,8 +32,8 @@
         <button class="w-100 btn btn-primary" type="submit">Submit</button>
     </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{asset('theme/js/jquery-3.7.1.min.js')}}"></script>
+<script src="{{asset('theme/js/select2.min.js')}}"></script>
 <script>
 $(document).ready(function() {
     $('#user').select2();

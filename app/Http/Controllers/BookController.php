@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Carbon\Carbon;
@@ -17,6 +16,13 @@ use App\Models\{
 
 class BookController extends Controller
 {
+    private ?string $message;
+    private string $type;
+    public function __construct()
+    {
+        $this -> message = null;
+        $this -> type = "alert-danger";
+    }
     public function index(): View
     {
         $books = Book::all();
@@ -47,7 +53,9 @@ class BookController extends Controller
         }
         $book = Book::create($validated);
         $book -> categories() -> sync($validated['categories']);
-        Session::flash('message','Books Have Been Added');
+        $this -> message = 'Book Have Been Added';
+        $this -> type = 'alet-success';
+        $this -> alert($this -> type,$this -> message);
         return back();
     }
 
@@ -88,7 +96,8 @@ class BookController extends Controller
         }
         $book -> fill($validated);
         $book -> save();
-        Session::flash('message','Book Have Been Updated');
+        $this -> message = 'Book Have Been Updated';
+        $this -> type = 'alet-success';
         return back();
     }
 
@@ -128,28 +137,21 @@ class BookController extends Controller
         // dd($request->all());
         $book = Book::findOrFail($request->book_id)->only('status');
         if($book['status'] != 'in stock'){
-            Session::flash('message',
-            [
-                'value'=>'Cannot rent, the book is not available',
-                'status'=>'alert-danger'
-            ]);
+            $this -> message = 'Cannot rent, the book is not available';
         }else {
             $count = History::where('user_id',$request->user_id) -> where('actual_date',null)->count();
             if($count >= 3){
-                Session::flash('message',[
-                    'value'=>'Cannot rent, user has reach limit of book',
-                    'status'=>'alert-danger'
-                ]);
+                $this -> message = 'Cannot rent, user has reach limit of book';
             }else{
-                $this -> pushHistory($request->all());
+                $this -> pushRentHistory($request->all());
             }
         }
+        $this -> alert($this -> type,$this -> message);
         return back();
     }
 
-    private function pushHistory($data)
+    private function pushRentHistory($data): void
     {
-        
         try{
             DB::beginTransaction();
             History::create($data);
@@ -157,18 +159,40 @@ class BookController extends Controller
             $book -> status = 'not available';
             $book -> save();
             DB::commit();
-            Session::flash('message',[
-                'value'=>'Rent book success !',
-                'status'=>'alert-success'
-            ]);
+            $this -> message = 'Rent book success !';
+            $this -> type = 'alert-success';
         }catch(\Throwable $th){
             DB::rollBack();
-            Session::flash('message',[
-                'value'=>'error !',
-                'status'=>'alert-danger'
-            ]);
+            $this -> message = "error !";
         }
     }
+
+    private function pushReturnHistory($data): void
+    {
+        try{
+            $rent =  History::where('user_id',$data['user_id'])->where('book_id',$data['book_id'])
+        -> where('actual_date',null);
+            $rentCount = $rent -> count();
+            if(!$rentCount){
+                $this -> message = "error !";
+            }else{
+                DB::beginTransaction();
+                $rentCurrent = $rent -> first();
+                $rentCurrent -> actual_date = Carbon::now()->toDateString();
+                $book = Book::findOrFail($data['book_id']);
+                $book -> status = 'in stock';
+                $book -> save();
+                $rentCurrent -> save();
+                DB::commit();
+                $this -> message = 'Return book success !';
+                $this -> type = 'alert-success';
+            }
+        }catch(\Throwable $th){
+            DB::rollBack();
+            $this -> message = "error !";
+        } 
+    }
+
 
     public function returnBook(): View 
     {
@@ -179,25 +203,11 @@ class BookController extends Controller
 
     public function returnStore(Request $request): RedirectResponse
     {
-
-        $rent =  History::where('user_id',$request->user_id)->where('book_id',$request->book_id)
-        -> where('actual_date',null);
-
-        $rentCount = $rent -> count();
-        $rentCurrent = $rent -> first();
-        if($rentCount){
-            $rentCurrent -> actual_date = Carbon::now()->toDataString();
-            $rentCurrent -> save();
-            Session::flash('message',[
-                'value'=>'Return book success !',
-                'status'=>'alert-success'
-            ]);
-        }
-        Session::flash('message',[
-            'value'=>'error !',
-            'status'=>'alert-danger'
-        ]);
+        $this -> pushReturnHistory($request->all());    
+        $this -> alert($this -> type,$this -> message);
         return back();
     }
+
+
 
 }

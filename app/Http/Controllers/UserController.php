@@ -103,4 +103,9 @@ class UserController extends Controller
         return back();
     }
 
+    public function updateCurrentProfile(): RedirectResponse
+    {
+        return back();
+    }
+
 }

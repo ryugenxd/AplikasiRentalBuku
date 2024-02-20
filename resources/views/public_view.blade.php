@@ -5,7 +5,7 @@
     <div class="row mb-3">
         <div class="col-12 col-sm-6">
             <select name="category" class="form-control p-2">
-                <option selected>Select Category</option>
+                <option selected value="">Select Category</option>
                 @foreach($categories as $category)
                 <option value="{{$category->id}}">{{$category->name}}</option>
                 @endforeach
@@ -13,7 +13,7 @@
         </div>
         <div class="col-12 col-sm-6">
             <div class="input-group mb-3">
-                <input type="text" name="title" class="form-control" placeholder="Book title ....." >
+                <input type="text" name="title" class="form-control" placeholder="Book title ....."  value="">
                 <button class="btn btn-outline-primary" type="submit" >Search</button>
             </div>
         </div>
@@ -42,8 +42,8 @@
                             {{$book->code}}
                         </span>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center p-3">
-                        <a href="#" class="btn btn-warning shadow">Rent Now</a>
+                    <div class="d-flex justify-content-center align-items-center p-4">
+                        <a href="#" class="btn btn-warning shadow fw-bold">Rent Now</a>
                         <div></div>
                     </div>
 

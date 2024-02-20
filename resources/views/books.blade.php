@@ -5,7 +5,7 @@
 <div class="mt-5">
     <div class="d-flex justify-content-end align-items-center w-100">
         <div class="mb-4 d-flex justify-content-between align-items-center gap-2">
-            <a class="btn btn-secondary" href="{{route('books.deleted')}}">Categories Deleted</a>
+            <a class="btn btn-secondary" href="{{route('books.deleted')}}">Books Deleted</a>
             <a class="btn btn-primary" href="{{route('books.create')}}">Tambah Data</a>
         </div>
     </div>

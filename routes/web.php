@@ -70,6 +70,7 @@ Route::middleware("auth")->group(function(){
 
     });
 
-    Route::get('/profile',[UserController::class,'profile'])->name('profile'); 
+    Route::get('/profile',[UserController::class,'profile'])->name('profile');
+    Route::post('/book/rentnow',[BookController::class,''])->name('rentnow');
     Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 });

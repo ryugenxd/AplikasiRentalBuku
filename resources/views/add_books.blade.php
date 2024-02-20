@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title','Add Book')
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="{{asset('theme/css/select2.min.css')}}" rel="stylesheet" />
 <h1>Add Book</h1>
 <div class="row mt-3">
     <div class="col-lg-6 col-ms-5 col-md-7">
@@ -56,8 +56,8 @@
     <div class="col-lg-6">
         <div class="mt-4">
             @if(Session::has('message'))
-                <div class="alert alert-success">
-                    {{Session::get('message')}}
+                <div class="alert  {{Session::get('message')['status']}}">
+                    {{Session::get('message')['value']}}
                 </div>
             @endif
             <div class="mb-4 d-flex justify-content-end align-items-center w-100">
@@ -116,8 +116,8 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{asset('theme/js/jquery-3.7.1.min.js')}}"></script>
+<script src="{{asset('theme/js/select2.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('.multiple-select').select2();
