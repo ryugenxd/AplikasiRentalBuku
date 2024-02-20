@@ -170,4 +170,34 @@ class BookController extends Controller
         }
     }
 
+    public function returnBook(): View 
+    {
+        $users = User::where('role_id','!=',1)->where('status','active')->get();
+        $books = Book::all();
+        return view('return_book',compact('users','books'));
+    }
+
+    public function returnStore(Request $request): RedirectResponse
+    {
+
+        $rent =  History::where('user_id',$request->user_id)->where('book_id',$request->book_id)
+        -> where('actual_date',null);
+
+        $rentCount = $rent -> count();
+        $rentCurrent = $rent -> first();
+        if($rentCount){
+            $rentCurrent -> actual_date = Carbon::now()->toDataString();
+            $rentCurrent -> save();
+            Session::flash('message',[
+                'value'=>'Return book success !',
+                'status'=>'alert-success'
+            ]);
+        }
+        Session::flash('message',[
+            'value'=>'error !',
+            'status'=>'alert-danger'
+        ]);
+        return back();
+    }
+
 }

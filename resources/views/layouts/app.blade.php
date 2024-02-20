@@ -25,11 +25,12 @@
                 @if(Auth::user()->role_id != 2)
                   <a href="{{route('dashboard')}}" class="{{Request::is('dashboard') ? 'active' : ' '}}">Dashboard</a>
                   <a href="{{route('categories')}}" class="{{Request::is('categories') || Request::is('categories/*') ? 'active' : ' '}}">Categories</a>
-                  <a href="{{route('books')}}" class="{{Request::is('books') || Request::is('books/*') && !Request::is('books/rent') ? 'active' : ' '}}">Books</a>
+                  <a href="{{route('books')}}" class="{{Request::is('books') || Request::is('books/*') && !Request::is('books/rent') && !Request::is('books/return') ? 'active' : ' '}}">Books</a>
                   <a href="{{route('users')}}" class="{{Request::is('users') || Request::is('users/*') ? 'active' : ' '}}">Users</a>
                   <a href="{{route('logs')}}" class="{{Request::is('logs') ? 'active' : ' '}}">History  </a>
                   <a href="{{route('public_views')}}" class="{{Request::is('/') ? 'active' : ' '}}">Book List</a>
                   <a href="{{route('books.rent')}}" class="{{Request::is('books/rent') ? 'active' : ' '}}">Rent Books</a>
+                  <a href="{{route('books.return')}}"  class="{{Request::is('books/return') ? 'active' : ' '}}">Return Books</a>
                   <a href="{{route('logout')}}" class="{{Request::is('logout') ? 'active' : ' '}}">Logout</a>
                 @else
                   <a href="{{route('public_views')}}" class="{{Request::is('/') ? 'active' : ' '}}">Book List</a>
